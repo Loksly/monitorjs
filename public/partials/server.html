@@ -1,11 +1,11 @@
-<div class="panel panel-default" ng-click="focus(index)">
-	<div class="panel-heading">
+<div class="panel panel-default" >
+	<div class="panel-heading clickable" ng-click="focus(index)" title="Click to focus">
 		<h3 class="panel-title">
 			<span class="glyphicon glyphicon-tasks"></span> {{profile.hostname}}
 			<div class="pull-right">{{profile.time  | date:'medium' }}</div>
 		</h3>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body clickable" ng-click="mutext()">
 		<div class="col-md-9">
 			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showdrives" ng-animate="'animate'">
 				<thead>
