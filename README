@@ -1,7 +1,7 @@
 Another tool to monitor filesystem, CPU usage and memory status on real time for several servers 
 =========
 
-![Alt text](capture.png?raw=true "Capture")
+![MonitorJS capture](monitorjs.png?raw=true "Capture")
 
 
 Note it uses CDN for bootstrap, angularjs and jquery.
