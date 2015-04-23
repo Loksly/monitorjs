@@ -1,0 +1,35 @@
+{
+  "name": "monitorjs",
+  "version": "1.0.0",
+  "description": "Another tool to monitor filesystem, CPU usage and memory status in real time for several servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Loksly/monitorjs"
+  },
+  "keywords": [
+    "monitor",
+    "fs",
+    "nodejs",
+    "realtime",
+    "cpu",
+    "filesystem",
+    "ram",
+    "memory",
+    "status",
+    "server"
+  ],
+  "author": "Loksly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Loksly/monitorjs/issues"
+  },
+  "homepage": "https://github.com/Loksly/monitorjs",
+  "dependencies": {
+    "nodejs-disks": "^0.2.1",
+    "q": "^1.2.0"
+  }
+}

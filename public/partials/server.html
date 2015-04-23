@@ -1,0 +1,44 @@
+<div class="panel panel-default" ng-click="focus(index)">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<span class="glyphicon glyphicon-tasks"></span> {{profile.hostname}}
+			<div class="pull-right">{{profile.time  | date:'medium' }}</div>
+		</h3>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-9">
+			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px">
+				<thead>
+					<tr>
+						<th scope="col">Drive</th>
+						<th scope="col">Aval.</th>
+						<th scope="col">Used</th>
+						<th scope="col">Used</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="fs in filesystems" ng-class="trClass(fs.usedPer)">
+						<th scope="row" title="{{fs.drive}}">{{fs.mountpoint}}</th>
+						<td class="text-right">{{fs.available}}</td>
+						<td class="text-right">{{fs.used}}</td>
+						<td>
+							<div class="progress" style="margin-bottom:10px">
+								<div class="progress-bar" ng-class="progressClass(fs.usedPer)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100" style="width: {{fs.usedPer}}%;">
+									{{fs.usedPer}}% Complete
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-3 text-center">
+			<div class="alert" ng-class="alertClass(profile.occupedpercent)" role="alert"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
+
+			<h4>Load avg.</h4>
+			<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">
+				<li ng-repeat="load in profile.loadavg">{{load.toFixed(2)}}</li>
+			</ul>
+		</div>
+	</div>
+</div>
