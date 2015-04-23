@@ -7,7 +7,7 @@
 	</div>
 	<div class="panel-body">
 		<div class="col-md-9">
-			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showdrives">
+			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showdrives" ng-animate="'animate'">
 				<thead>
 					<tr>
 						<th scope="col">Drive</th>
@@ -31,7 +31,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showprocesses">
+			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showprocesses" ng-animate="'animate'">
 				<thead>
 					<tr>
 						<th scope="col">COM</th>
@@ -43,9 +43,9 @@
 				<tbody>
 					<tr ng-repeat="p in processes" ng-class="trClass(p.mem)">
 						<th scope="row">{{p.commandname}}</th>
-						<td>{{p.pid}}</td>
-						<td>{{p.cpu}}</td>
-						<td>{{p.mem}}</td>
+						<td class="text-center">{{p.pid}}</td>
+						<td class="text-right">{{p.cpu}}</td>
+						<td class="text-right">{{p.mem}}</td>
 					</tr>
 				</tbody>
 			</table>

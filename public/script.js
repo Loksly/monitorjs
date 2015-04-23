@@ -14,18 +14,18 @@
 				controller: function($scope, $http, $interval, $location) {
 					$scope.update = function (){
 						/* TODO: add history record between executions, so we can compare and see how it evolves */
-						$http.get('/api/filesystem').success(function(data) {
+						$http.get($scope.server + 'api/filesystem').success(function(data) {
 							$scope.filesystems = data;
 						}).error(function(){
 							$scope.filesystems = undefined;
 						});
-						$http.get('/api/profile').success(function(data) {
+						$http.get($scope.server + 'api/profile').success(function(data) {
 							$scope.profile = data;
 							$scope.profile.occupedpercent = 100 - ( data.freemem * 100 / data.totalmem );
 						}).error(function(){
 							$scope.profile = undefined;
 						});
-						$http.get('/api/processes').success(function(data) {
+						$http.get($scope.server + 'api/processes').success(function(data) {
 							$scope.processes = data;
 						}).error(function(){
 							$scope.processes = undefined;
@@ -60,8 +60,8 @@
 					$scope.focus = function(index){
 						$location.url('/details/' + index);
 					};
-					$interval( $scope.update , $scope.timeout * 1000);
-					$interval( $scope.mutext , $scope.timeout * 500);
+					$interval( $scope.update, $scope.timeout * 1000);
+					$interval( $scope.mutext, $scope.timeout * 500);
 				},
 				templateUrl: 'partials/server.html'
 			};
@@ -73,7 +73,7 @@
 					$rootScope.servers = [//add here your servers
 						{ url: '/', timeout: 60 }
 					];
-					//just a test, you should remove this line
+					//just a test, you should remove these 3 lines
 					for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
 						$rootScope.servers.push( { url: '/', timeout: 20 } );
 					}
@@ -89,7 +89,7 @@
 					if ($scope.servers.length >= 5){
 						return 'col-lg-4 col-md-6 col-sm-12';
 					}
-					if ($scope.servers.length == 1){
+					if ($scope.servers.length === 1){
 						return 'col-lg-11 col-md-11 col-sm-12';
 					}
 					return 'col-lg-6 col-md-6 col-sm-12';
