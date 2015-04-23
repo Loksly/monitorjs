@@ -8,3 +8,10 @@ Note it uses CDN for bootstrap, angularjs and jquery.
 
 Keywords:
 angularjs, nodejs, jquery, bootstrap, realtime, dashboard, filesystem, cpu, ram.
+
+```
+git clone "https://github.com/Loksly/monitorjs"
+cd monitorjs
+npm install
+nohup forever node index.js &
+```
