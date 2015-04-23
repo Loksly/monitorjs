@@ -25,8 +25,20 @@
 						}).error(function(){
 							$scope.profile = undefined;
 						});
+						$http.get('/api/processes').success(function(data) {
+							$scope.processes = data;
+						}).error(function(){
+							$scope.processes = undefined;
+						});
 					};
+					$scope.mutext = function(){
+						$scope.showprocesses = !$scope.showprocesses;
+						$scope.showdrives = !$scope.showprocesses;
+					};
+					$scope.showprocesses = true;
 					$scope.update();
+					$scope.mutext();
+
 					$scope.progressClass = function(percent){
 						if (percent > 0.8) return 'progress-bar-danger';
 						if (percent > 0.6) return 'progress-bar-warning';
@@ -49,6 +61,7 @@
 						$location.url('/details/' + index);
 					};
 					$interval( $scope.update , $scope.timeout * 1000);
+					$interval( $scope.mutext , $scope.timeout * 500);
 				},
 				templateUrl: 'partials/server.html'
 			};
@@ -62,7 +75,7 @@
 					];
 					//just a test, you should remove this line
 					for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
-						$rootScope.servers.push( { url: '/', timeout: 90 } );
+						$rootScope.servers.push( { url: '/', timeout: 20 } );
 					}
 				}
 				if (typeof $routeParams.index === 'undefined'){
