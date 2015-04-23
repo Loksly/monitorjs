@@ -5,7 +5,11 @@ var	express = require('express'),
 	monitorjs = require('./lib/monitor.js'),
 	port = process.env.PORT ? process.env.PORT : 9999;
 
-
+app.use('/api/', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
 
 app.get('/api/filesystem', function(req, res){
 	monitorjs.filesystemsList().then(function(result){
