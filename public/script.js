@@ -25,19 +25,25 @@
 						}).error(function(){
 							$scope.profile = undefined;
 						});
-						$http.get($scope.server + 'api/processes').success(function(data) {
+						$http.get($scope.server + 'api/processes/10/' + $scope.sortby  ).success(function(data) {
 							$scope.processes = data;
 						}).error(function(){
 							$scope.processes = undefined;
 						});
 					};
-					$scope.mutext = function(){
+					$scope.mutex = function(){
 						$scope.showprocesses = !$scope.showprocesses;
 						$scope.showdrives = !$scope.showprocesses;
 					};
+					$scope.setSortBy = function(field){
+						$scope.sortby = field;
+						$scope.update();
+					};
+
 					$scope.showprocesses = true;
+					$scope.sortby = 'cpu';
 					$scope.update();
-					$scope.mutext();
+					$scope.mutex();
 
 					$scope.progressClass = function(percent){
 						if (percent > 0.8) return 'progress-bar-danger';
@@ -71,9 +77,10 @@
 				if (typeof $rootScope.servers === 'undefined')
 				{
 					$rootScope.servers = [//add here your servers
-						{ url: '/', timeout: 60 }
+						{ url: '/', timeout: 120 }
 					];
 					//just a test, you should remove these 3 lines
+
 					for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
 						$rootScope.servers.push( { url: '/', timeout: 20 } );
 					}

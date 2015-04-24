@@ -5,7 +5,7 @@
 			<div class="pull-right">{{profile.time  | date:'medium' }}</div>
 		</h3>
 	</div>
-	<div class="panel-body clickable" ng-click="mutext()">
+	<div class="panel-body">
 		<div class="col-md-9">
 			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showdrives" ng-animate="'animate'">
 				<thead>
@@ -36,12 +36,12 @@
 					<tr>
 						<th scope="col">COM</th>
 						<th scope="col">PID</th>
-						<th scope="col">CPU</th>
-						<th scope="col">MEM</th>
+						<th scope="col" class="clickable" ng-click="setSortBy('cpu')">CPU</th>
+						<th scope="col" class="clickable" ng-click="setSortBy('mem')">MEM</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="p in processes" ng-class="trClass(p.mem)">
+					<tr ng-repeat="p in processes" ng-class="trClass( sortby === 'mem' ? p.mem : p.cpu)">
 						<th scope="row">{{p.commandname}}</th>
 						<td class="text-center">{{p.pid}}</td>
 						<td class="text-right">{{p.cpu}}</td>
@@ -57,6 +57,10 @@
 			<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">
 				<li ng-repeat="load in profile.loadavg">{{load.toFixed(2)}}</li>
 			</ul>
+			<div class="btn-group" role="group" aria-label="Mutex functionality">
+				<button type="button" ng-click="mutex()" ng-class="{'active': showdrives, 'btn-default': !showdrives }" class="clickable btn" title="View drives"><span class="glyphicon glyphicon-hdd"></span></button>
+				<button type="button" ng-click="mutex()" ng-class="{'active': showprocesses, 'btn-default': !showprocesses }" class="clickable btn" title="View top processes"><span class="glyphicon glyphicon-list-alt"></span></button>
+			</div>
 		</div>
 	</div>
 </div>
