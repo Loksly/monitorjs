@@ -35,6 +35,24 @@ app.get('/api/processes/:limit/:field', function(req, res){
 	});
 });
 
+app.get('/api/processesTree', function(req, res){
+	monitorjs.processTreeList(10, 'cpu', false).then(function(result){
+		res.jsonp(result);
+	});
+});
+
+app.get('/api/processesTree/:limit', function(req, res){
+	monitorjs.processTreeList(req.params.limit ? parseInt(req.params.limit) : 10, 'cpu', false).then(function(result){
+		res.jsonp(result);
+	});
+});
+
+app.get('/api/processesTree/:limit/:field', function(req, res){
+	monitorjs.processTreeList(req.params.limit ? parseInt(req.params.limit) : 10, req.params.field, false).then(function(result){
+		res.jsonp(result);
+	});
+});
+
 app.get('/api/profile', function(req, res){
 	monitorjs.profileList().then(function(result){
 		res.jsonp(result);

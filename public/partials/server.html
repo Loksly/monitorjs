@@ -10,10 +10,10 @@
 			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showdrives" ng-animate="'animate'">
 				<thead>
 					<tr>
-						<th scope="col">Drive</th>
-						<th scope="col">Aval.</th>
-						<th scope="col">Used</th>
-						<th scope="col">Used</th>
+						<th scope="col" class="text-center">Drive</th>
+						<th scope="col" class="text-center">Aval.</th>
+						<th scope="col" class="text-center">Used</th>
+						<th scope="col" class="text-center">%</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,24 +34,37 @@
 			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showprocesses" ng-animate="'animate'">
 				<thead>
 					<tr>
-						<th scope="col">COM</th>
-						<th scope="col">PID</th>
-						<th scope="col" class="clickable" ng-click="setSortBy('cpu')">CPU</th>
-						<th scope="col" class="clickable" ng-click="setSortBy('mem')">MEM</th>
+						<th scope="col" class="text-center" colspan="2">COM</th>
+						<th scope="col" class="text-center">PID</th>
+						<th scope="col" class="clickable text-center" ng-click="setSortBy('cpu')">CPU</th>
+						<th scope="col" class="clickable text-center" ng-click="setSortBy('mem')">MEM</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="p in processes" ng-class="trClass( sortby === 'mem' ? p.mem : p.cpu)">
-						<th scope="row">{{p.commandname}}</th>
+					<tr ng-repeat-start="p in processes" ng-class="trClass( sortby === 'mem' ? p.mem * 0.01 : p.cpu * 0.01)">
+						<td ng-click="p.show = !p.show" rowspan="{{ p.show ? (p.list.length + 1) : 1}}" class="clickable text-center">
+						<button type="button" ng-class="{'active': p.show, 'btn-default': !p.show }" class="btn btn-xs" title="View details">
+							<span class="glyphicon" ng-class="{'glyphicon-minus': p.show, 'glyphicon-plus': !p.show }"></span>
+						</button>
+						</td>
+						<th scope="row" ng-click="p.show = !p.show" rowspan="{{ p.show ? (p.list.length + 1) : 1}}" class="clickable">
+						{{p.commandname}}
+						</th>
 						<td class="text-center">{{p.pid}}</td>
-						<td class="text-right">{{p.cpu}}</td>
-						<td class="text-right">{{p.mem}}</td>
+						<td class="text-right">{{p.cpu.toFixed(1)}}</td>
+						<td class="text-right">{{p.mem.toFixed(1)}}</td>
 					</tr>
+					<tr ng-show="p.show" ng-repeat="sub in p.list" ng-class="trClass( sortby === 'mem' ? sub.mem * 0.01 : sub.cpu * 0.01)">
+						<td class="text-center">{{sub.pid}}</td>
+						<td class="text-right">{{sub.cpu.toFixed(1)}}</td>
+						<td class="text-right">{{sub.mem.toFixed(1)}}</td>
+					</tr>
+					<tr ng-repeat-end></tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="col-md-3 text-center">
-			<div class="alert" ng-class="alertClass(profile.occupedpercent)" role="alert"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
+			<div class="alert" ng-class="alertClass(profile.occupedpercent * 0.01)" role="alert"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
 
 			<h4>Load avg.</h4>
 			<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">

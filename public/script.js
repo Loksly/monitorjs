@@ -25,7 +25,7 @@
 						}).error(function(){
 							$scope.profile = undefined;
 						});
-						$http.get($scope.server + 'api/processes/10/' + $scope.sortby  ).success(function(data) {
+						$http.get($scope.server + 'api/processesTree/10/' + $scope.sortby  ).success(function(data) {
 							$scope.processes = data;
 						}).error(function(){
 							$scope.processes = undefined;
@@ -52,9 +52,9 @@
 						return 'progress-bar-success';
 					};
 					$scope.trClass = function(percent){
-						if (percent > 0.8) return 'danger';
-						if (percent > 0.6) return 'warning';
-						if (percent > 0.4) return 'info';
+						if (percent > 0.3) return 'danger';
+						if (percent > 0.2) return 'warning';
+						if (percent > 0.1) return 'info';
 						return 'success';
 					};
 					$scope.alertClass = function(percent){
@@ -79,10 +79,11 @@
 					$rootScope.servers = [//add here your servers
 						{ url: '/', timeout: 120 }
 					];
-					//just a test, you should remove these 3 lines
-
-					for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
-						$rootScope.servers.push( { url: '/', timeout: 20 } );
+					//just a test, you should remove the next 5 lines
+					if ($rootScope.servers.length === 1){
+						for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
+							$rootScope.servers.push( { url: '/', timeout: 20 } );
+						}
 					}
 				}
 				if (typeof $routeParams.index === 'undefined'){
