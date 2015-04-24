@@ -17,13 +17,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="fs in filesystems" ng-class="trClass(fs.usedPer)">
+					<tr ng-repeat="fs in filesystems" ng-class="trClass(fs.usedPer * 0.01)">
 						<th scope="row" title="{{fs.drive}}">{{fs.mountpoint}}</th>
 						<td class="text-right">{{fs.available}}</td>
 						<td class="text-right">{{fs.used}}</td>
 						<td>
 							<div class="progress" style="margin-bottom:10px">
-								<div class="progress-bar" ng-class="progressClass(fs.usedPer)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100" style="width: {{fs.usedPer}}%;">
+								<div class="progress-bar" ng-class="progressClass(fs.usedPer * 0.01)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100" style="width: {{fs.usedPer}}%;">
 									{{fs.usedPer}}% Complete
 								</div>
 							</div>

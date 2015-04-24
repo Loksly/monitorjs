@@ -10,7 +10,7 @@
 		.directive('server', function() {
 			return {
 				restrict: 'E',
-				scope: { server: '=urlprefix', timeout: '=timeout', index: '=index' },
+				scope: { server: '=urlprefix', timeout: '=timeout', index: '=index', detailed: '=detailed' },
 				controller: function($scope, $http, $interval, $location) {
 					$scope.update = function (){
 						/* TODO: add history record between executions, so we can compare and see how it evolves */
@@ -25,7 +25,7 @@
 						}).error(function(){
 							$scope.profile = undefined;
 						});
-						$http.get($scope.server + 'api/processesTree/10/' + $scope.sortby  ).success(function(data) {
+						$http.get($scope.server + 'api/processesTree/' + $scope.maxprocesses + '/' + $scope.sortby  ).success(function(data) {
 							$scope.processes = data;
 						}).error(function(){
 							$scope.processes = undefined;
@@ -41,6 +41,7 @@
 					};
 
 					$scope.showprocesses = true;
+					$scope.maxprocesses = $scope.detailed ? 100 : 10;
 					$scope.sortby = 'cpu';
 					$scope.update();
 					$scope.mutex();
@@ -77,10 +78,10 @@
 				if (typeof $rootScope.servers === 'undefined')
 				{
 					$rootScope.servers = [//add here your servers
-						{ url: '/', timeout: 120 }
+
 					];
 					//just a test, you should remove the next 5 lines
-					if ($rootScope.servers.length === 1){
+					if ($rootScope.servers.length === 0){
 						for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
 							$rootScope.servers.push( { url: '/', timeout: 20 } );
 						}

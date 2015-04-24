@@ -1,5 +1,5 @@
 <div class="col-md-1 col-lg-1 text-align:center"  ng-if="detailed">
 	<a href="#/" class="btn  btn-default"><span class="glyphicon glyphicon-arrow-left"></span></a>
 </div>
-<server ng-animate="'animate'" urlprefix="server.url" timeout="server.timeout" index="$index" ng-class="serverClass()" ng-repeat="server in servers track by $index"></server>
+<server ng-animate="'animate'" urlprefix="server.url" timeout="server.timeout" index="$index" detailed="servers.length===1" ng-class="serverClass()" ng-repeat="server in servers track by $index"></server>
 
