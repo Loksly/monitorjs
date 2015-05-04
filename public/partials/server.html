@@ -6,6 +6,18 @@
 		</h3>
 	</div>
 	<div class="panel-body">
+
+		<div class="col-md-12">
+			<div class="progress">
+				<div class="progress-bar progress-bar-danger" style="width: {{memory.rate.occuped}}%" title="Memory occuped">
+					<span>{{memory.rate.occuped.toFixed(0)}}% occuped</span>
+				</div>
+				 <div class="progress-bar progress-bar-info" style="width: {{memory.rate.cached}}%" title="Memory cached">
+					<span>{{memory.rate.cached.toFixed(0)}}% cached</span>
+				</div>
+			</div>
+		</div>
+
 		<div class="col-md-9">
 			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-If="showdrives" ng-animate="'animate'">
 				<thead>

@@ -1,6 +1,7 @@
 'use strict';
 
-var	express = require('express'),
+var	path = require('path'),
+	express = require('express'),
 	app = express(),
 	monitorjs = require('./lib/monitor.js'),
 	port = process.env.PORT ? process.env.PORT : 9999;
@@ -59,6 +60,12 @@ app.get('/api/profile', function(req, res){
 	});
 });
 
-app.use(express.static('public'));
+app.get('/api/memory', function(req, res){
+	monitorjs.memoryStatus().then(function(result){
+		res.jsonp(result);
+	});
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port);
 console.log('Server listening on port ' + port);

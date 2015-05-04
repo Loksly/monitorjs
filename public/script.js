@@ -30,6 +30,17 @@
 						}).error(function(){
 							$scope.processes = undefined;
 						});
+						$http.get($scope.server + 'api/memory' ).success(function(data) {
+							$scope.memory = data;
+							$scope.memory.available = data.MemFree + data.Cached;
+							$scope.memory.occuped = data.MemTotal - $scope.memory.available;
+							$scope.memory.rate = {
+								occuped: 100 * $scope.memory.occuped / $scope.memory.MemTotal,
+								cached: 100 * $scope.memory.Cached / $scope.memory.MemTotal,
+							};
+						}).error(function(){
+							$scope.memory = undefined;
+						});
 					};
 					$scope.mutex = function(){
 						$scope.showprocesses = !$scope.showprocesses;
