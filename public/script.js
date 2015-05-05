@@ -38,6 +38,8 @@
 								occuped: 100 * $scope.memory.occuped / $scope.memory.MemTotal,
 								cached: 100 * $scope.memory.Cached / $scope.memory.MemTotal,
 							};
+							$scope.memory.occupedKB = $scope.toHumanReadable($scope.memory.occuped);
+							$scope.memory.cachedKB = $scope.toHumanReadable($scope.memory.Cached);
 						}).error(function(){
 							$scope.memory = undefined;
 						});
@@ -49,6 +51,18 @@
 					$scope.setSortBy = function(field){
 						$scope.sortby = field;
 						$scope.update();
+					};
+					$scope.toHumanReadable = function(kilobytes){
+						var units = [ 'KB', 'MB', 'GB'];
+						var value = parseFloat(kilobytes);
+						for(var i  in units){
+							if ((value / 1024) > 1){
+								value = value / 1024;
+								continue;
+							}
+							return value.toFixed(1) + ' ' + units[i];
+						}
+						return value + ' GB';
 					};
 
 					$scope.showprocesses = true;

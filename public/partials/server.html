@@ -9,10 +9,10 @@
 
 		<div class="col-md-12">
 			<div class="progress">
-				<div class="progress-bar progress-bar-danger" style="width: {{memory.rate.occuped}}%" title="Memory occuped">
+				<div class="progress-bar progress-bar-danger" style="width: {{memory.rate.occuped}}%" title="Memory occuped {{memory.occupedKB}}">
 					<span>{{memory.rate.occuped.toFixed(0)}}% occuped</span>
 				</div>
-				 <div class="progress-bar progress-bar-info" style="width: {{memory.rate.cached}}%" title="Memory cached">
+				 <div class="progress-bar progress-bar-info" style="width: {{memory.rate.cached}}%" title="Memory cached {{memory.cachedKB}}">
 					<span>{{memory.rate.cached.toFixed(0)}}% cached</span>
 				</div>
 			</div>
@@ -23,7 +23,7 @@
 				<thead>
 					<tr>
 						<th scope="col" class="text-center">Drive</th>
-						<th scope="col" class="text-center">Aval.</th>
+						<th scope="col" class="text-center">Avail.</th>
 						<th scope="col" class="text-center">Used</th>
 						<th scope="col" class="text-center">%</th>
 					</tr>
@@ -80,7 +80,7 @@
 
 			<h4>Load avg.</h4>
 			<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">
-				<li ng-repeat="load in profile.loadavg">{{load.toFixed(2)}}</li>
+				<li ng-repeat="load in profile.loadavg track by $index">{{load.toFixed(2)}}</li>
 			</ul>
 			<div class="btn-group" role="group" aria-label="Mutex functionality">
 				<button type="button" ng-click="mutex()" ng-class="{'active': showdrives, 'btn-default': !showdrives }" class="clickable btn" title="View drives"><span class="glyphicon glyphicon-hdd"></span></button>
