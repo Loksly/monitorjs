@@ -53,6 +53,7 @@
 						$scope.update();
 					};
 					$scope.toHumanReadable = function(kilobytes){
+						//this could have been implemented as a filter but I guess this runs faster or at least as fast an isolated one can
 						var units = [ 'KB', 'MB', 'GB'];
 						var value = parseFloat(kilobytes);
 						for(var i  in units){

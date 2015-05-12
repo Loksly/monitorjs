@@ -9,10 +9,10 @@
 
 		<div class="col-md-12">
 			<div class="progress">
-				<div class="progress-bar progress-bar-danger" style="width: {{memory.rate.occuped}}%" title="Memory occuped {{memory.occupedKB}}">
+				<div class="progress-bar progress-bar-danger" ng-style="{'width': memory.rate.occuped.toFixed(2) +'%' }" title="Memory occuped {{memory.occupedKB}}">
 					<span>{{memory.rate.occuped.toFixed(0)}}% occuped</span>
 				</div>
-				 <div class="progress-bar progress-bar-info" style="width: {{memory.rate.cached}}%" title="Memory cached {{memory.cachedKB}}">
+				 <div class="progress-bar progress-bar-info" ng-style="{'width': memory.rate.cached.toFixed(2) +'%' }" title="Memory cached {{memory.cachedKB}}">
 					<span>{{memory.rate.cached.toFixed(0)}}% cached</span>
 				</div>
 			</div>
@@ -35,7 +35,7 @@
 						<td class="text-right">{{fs.used}}</td>
 						<td>
 							<div class="progress" style="margin-bottom:10px">
-								<div class="progress-bar" ng-class="progressClass(fs.usedPer * 0.01)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100" style="width: {{fs.usedPer}}%;">
+								<div class="progress-bar" ng-class="progressClass(fs.usedPer * 0.01)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100"  ng-style="{'width': fs.usedPer +'%' }">
 									{{fs.usedPer}}% Complete
 								</div>
 							</div>
