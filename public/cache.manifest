@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# rev 10
+# rev 11
 
 CACHE:
 index.html
@@ -9,18 +9,18 @@ style.css
 partials/dashboard.html
 partials/server.html
 
-vendor/jquery/dist/jquery.min.js
-vendor/bootstrap/dist/js/bootstrap.min.js
-vendor/bootstrap/dist/css/bootstrap.min.css
-vendor/angular/angular.min.js
-vendor/angular-route/angular-route.min.js
-vendor/angular-animate/angular-animate.min.js
+bower_components/jquery/dist/jquery.min.js
+bower_components/bootstrap/dist/js/bootstrap.min.js
+bower_components/bootstrap/dist/css/bootstrap.min.css
+bower_components/angular/angular.min.js
+bower_components/angular-route/angular-route.min.js
+bower_components/angular-animate/angular-animate.min.js
 
-vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.svg
-vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.eot
-vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
-vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
-vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2
 
 NETWORK:
 api/filesystem

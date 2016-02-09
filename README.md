@@ -1,4 +1,4 @@
-Another tool to monitor filesystem, CPU usage and memory status on real time for several servers 
+Another tool to monitor filesystem, CPU usage and memory status on real time for several servers
 =========
 
 ![MonitorJS capture](https://github.com/Loksly/monitorjs/blob/master/monitorjs.png)
@@ -15,6 +15,7 @@ To deploy follow these instructions:
 git clone "https://github.com/Loksly/monitorjs"
 cd monitorjs
 npm install
+bower install
 nohup forever index.js &
 ```
 
