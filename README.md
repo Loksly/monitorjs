@@ -18,13 +18,4 @@ nohup forever index.js &
 ```
 
 
-You may want to change the list of servers you want to track at public/script.js file.
-
-```
-$rootScope.servers = [//add here your servers
-						{ url: '/', timeout: 60 },
-						{ url: 'http://192.168.1.2:9999/', timeout: 60 },
-						{ url: 'http://192.168.1.4:9999/', timeout: 60 }
-					];
-```
-
+You may want to change the list of servers you want to track at public/config.json file.

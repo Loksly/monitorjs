@@ -1,47 +1,46 @@
+/* global angular */
 (function(angular){
 	'use strict';
-	angular.module('monitorjs', ['ngRoute', 'ngAnimate'])
-		.config(['$routeProvider',
-			function($routeProvider){
-				$routeProvider.when('/', {templateUrl: 'partials/dashboard.html', controller: 'DashboardCtrl'});
-				$routeProvider.when('/details/:index', {templateUrl: 'partials/dashboard.html', controller: 'DashboardCtrl'});
-				$routeProvider.otherwise({redirectTo: '/'});
-			}])
-		.directive('server', function() {
+	angular.module('monitorjs', ['ngRoute', 'ngAnimate']).config(['$routeProvider', function($routeProvider){
+			$routeProvider.when('/', {templateUrl: 'partials/dashboard.html', controller: 'DashboardCtrl'});
+			$routeProvider.when('/details/:index', {templateUrl: 'partials/dashboard.html', controller: 'DashboardCtrl'});
+			$routeProvider.otherwise({redirectTo: '/'});
+
+		}]).directive('server', function() {
 			return {
 				restrict: 'E',
-				scope: { server: '=urlprefix', timeout: '=timeout', index: '=index', detailed: '=detailed' },
+				scope: {server: '=urlprefix', timeout: '=timeout', index: '=index', detailed: '=detailed'},
 				controller: function($scope, $http, $interval, $location) {
 					$scope.update = function (){
 						/* TODO: add history record between executions, so we can compare and see how it evolves */
-						$http.get($scope.server + 'api/filesystem').success(function(data) {
-							$scope.filesystems = data;
-						}).error(function(){
-							$scope.filesystems = undefined;
+						$http.get($scope.server + 'api/filesystem').then(function(data) {
+							$scope.filesystems = data.data;
+						}, function(){
+							Reflect.deleteProperty($scope.filesystems);
 						});
-						$http.get($scope.server + 'api/profile').success(function(data) {
-							$scope.profile = data;
-							$scope.profile.occupedpercent = 100 - ( data.freemem * 100 / data.totalmem );
-						}).error(function(){
-							$scope.profile = undefined;
+						$http.get($scope.server + 'api/profile').then(function(data) {
+							$scope.profile = data.data;
+							$scope.profile.occupedpercent = 100 - (data.data.freemem * 100 / data.data.totalmem);
+						}, function(){
+							Reflect.deleteProperty($scope.profile);
 						});
-						$http.get($scope.server + 'api/processesTree/' + $scope.maxprocesses + '/' + $scope.sortby  ).success(function(data) {
-							$scope.processes = data;
-						}).error(function(){
-							$scope.processes = undefined;
+						$http.get($scope.server + 'api/processesTree/' + $scope.maxprocesses + '/' + $scope.sortby).then(function(data) {
+							$scope.processes = data.data;
+						}, function(){
+							Reflect.deleteProperty($scope.processes);
 						});
-						$http.get($scope.server + 'api/memory' ).success(function(data) {
-							$scope.memory = data;
-							$scope.memory.available = data.MemFree + data.Cached;
-							$scope.memory.occuped = data.MemTotal - $scope.memory.available;
+						$http.get($scope.server + 'api/memory' ).then(function(data) {
+							$scope.memory = data.data;
+							$scope.memory.available = data.data.MemFree + data.data.Cached;
+							$scope.memory.occuped = data.data.MemTotal - $scope.memory.available;
 							$scope.memory.rate = {
 								occuped: 100 * $scope.memory.occuped / $scope.memory.MemTotal,
-								cached: 100 * $scope.memory.Cached / $scope.memory.MemTotal,
+								cached: 100 * $scope.memory.Cached / $scope.memory.MemTotal
 							};
 							$scope.memory.occupedKB = $scope.toHumanReadable($scope.memory.occuped);
 							$scope.memory.cachedKB = $scope.toHumanReadable($scope.memory.Cached);
-						}).error(function(){
-							$scope.memory = undefined;
+						}, function(){
+							Reflect.deleteProperty($scope.memory);
 						});
 					};
 					$scope.mutex = function(){
@@ -52,18 +51,23 @@
 						$scope.sortby = field;
 						$scope.update();
 					};
+
 					$scope.toHumanReadable = function(kilobytes){
+
 						//this could have been implemented as a filter but I guess this runs faster or at least as fast an isolated one can
-						var units = [ 'KB', 'MB', 'GB'];
+						var units = ['MB', 'GB', 'TB'];
 						var value = parseFloat(kilobytes);
-						for(var i  in units){
-							if ((value / 1024) > 1){
-								value = value / 1024;
-								continue;
+
+						var hr = units.reduce(function(p, u){
+							if (p.value > 1024){
+								p.value = value / 1024;
+								p.unit = u;
 							}
-							return value.toFixed(1) + ' ' + units[i];
-						}
-						return value + ' GB';
+
+							return p;
+						}, {value: value, unit: 'KB'});
+
+						return hr.value.toFixed(1) + ' ' + hr.unit;
 					};
 
 					$scope.showprocesses = true;
@@ -93,33 +97,36 @@
 					$scope.focus = function(index){
 						$location.url('/details/' + index);
 					};
-					$interval( $scope.update, $scope.timeout * 1000);
-					$interval( $scope.mutext, $scope.timeout * 500);
+					var listeners = [
+						$interval($scope.update, $scope.timeout * 10000),
+						$interval($scope.mutext, $scope.timeout * 5000)
+					];
+					$scope.$on('$destroy', function(){
+						listeners.foreach(function(f){
+							$interval.cancel(f);
+						});
+					});
 				},
 				templateUrl: 'partials/server.html'
 			};
-		})
-		.controller('DashboardCtrl', [ '$rootScope', '$scope', '$routeParams',
-			function($rootScope, $scope, $routeParams){
-				if (typeof $rootScope.servers === 'undefined')
-				{
-					$rootScope.servers = [//add here your servers
+		}).controller('DashboardCtrl', ['$rootScope', '$scope', '$routeParams', '$http', function($rootScope, $scope, $routeParams, $http){
+				$rootScope.servers = [];
+				$scope.servers = [];
+				$scope.detailed = false;
 
-					];
-					//just a test, you should remove the next 5 lines
-					if ($rootScope.servers.length === 0){
-						for(var c = Math.floor((Math.random() * 10) + 1); c > 0; c--){
-							$rootScope.servers.push( { url: '/', timeout: 20 } );
+				$http.get('config.json').then(function(c){
+					if (typeof c.data.servers !== 'undefined' && Array.isArray(c.data.servers)){
+						$rootScope.servers = c.data.servers;
+						$scope.servers = $rootScope.servers;
+							
+						if (typeof $rootScope.servers !== 'undefined' && typeof $rootScope.servers[$routeParams.index] !== 'undefined'){
+							$scope.servers = [$rootScope.servers[$routeParams.index]];
+							$scope.detailed = true;
 						}
 					}
-				}
-				if (typeof $routeParams.index === 'undefined'){
-					$scope.servers = $rootScope.servers;
-					$scope.detailed = false;
-				}else{
-					$scope.servers = [ $rootScope.servers[ $routeParams.index ] ];
-					$scope.detailed = true;
-				}
+				});
+				
+
 				$scope.serverClass = function(){
 					if ($scope.servers.length >= 5){
 						return 'col-lg-4 col-md-6 col-sm-12';
@@ -127,6 +134,7 @@
 					if ($scope.servers.length === 1){
 						return 'col-lg-11 col-md-11 col-sm-12';
 					}
+
 					return 'col-lg-6 col-md-6 col-sm-12';
 				};
 			}
