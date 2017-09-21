@@ -2,7 +2,7 @@
 	<div class="panel-heading clickable" ng-click="focus(index)" title="Click to focus">
 		<h3 class="panel-title">
 			<span class="glyphicon glyphicon-tasks"></span> {{profile.hostname}}
-			<div class="pull-right">{{profile.time  | date:'medium' }}</div>
+			<div class="pull-right">{{profile.time | date:'dd/MM/yyyy HH:mm'}}</div>
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -76,13 +76,13 @@
 			</table>
 		</div>
 		<div class="col-md-3 text-center">
-			<div class="alert" ng-class="alertClass(profile.occupedpercent * 0.01)" role="alert"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
+			<div class="alert" ng-class="alertClass(profile.occupedpercent * 0.01)" role="alert" style="padding: 15px 0"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
 
 			<h4>Load avg.</h4>
 			<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">
 				<li ng-repeat="load in profile.loadavg track by $index">{{load.toFixed(2)}}</li>
 			</ul>
-			<div class="btn-group" role="group" aria-label="Mutex functionality">
+			<div class="btn-group-vertical" role="group" aria-label="Mutex functionality">
 				<button type="button" ng-click="mutex()" ng-class="{'active': showdrives, 'btn-default': !showdrives }" class="clickable btn" title="View drives"><span class="glyphicon glyphicon-hdd"></span></button>
 				<button type="button" ng-click="mutex()" ng-class="{'active': showprocesses, 'btn-default': !showprocesses }" class="clickable btn" title="View top processes"><span class="glyphicon glyphicon-list-alt"></span></button>
 			</div>
