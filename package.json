@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/Loksly/monitorjs",
   "dependencies": {
-    "express": "^4.15.4",
+    "express": "^4.17.1",
     "nodejs-disks": "^0.2.1",
     "q": "^1.5.0"
   }
