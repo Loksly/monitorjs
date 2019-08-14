@@ -1,90 +1,88 @@
-<div class="panel panel-default" >
-	<div class="panel-heading clickable" ng-click="focus(index)" title="Click to focus">
-		<h3 class="panel-title">
-			<span class="glyphicon glyphicon-tasks"></span> {{profile.hostname}}
-			<div class="pull-right">{{profile.time | date:'dd/MM/yyyy HH:mm'}}</div>
+<div class="card card-default">
+	<div class="card-body">
+		<h3 class="card-title clickable" ng-click="focus(index)" title="Click to focus">
+			<div class="float-right">{{profile.time | date:'dd/MM/yyyy HH:mm'}}</div>
+			<i class="fas fa-tasks"></i> {{profile.hostname}}
 		</h3>
-	</div>
-	<div class="panel-body">
-
-		<div class="col-md-12">
+		<div class="col-md-12 mb-3">
 			<div class="progress">
-				<div class="progress-bar progress-bar-danger" ng-style="{'width': memory.rate.occuped.toFixed(2) +'%' }" title="Memory occuped {{memory.occupedKB}}">
+				<div class="progress-bar bg-danger" ng-style="{'width': memory.rate.occuped.toFixed(2) +'%' }" title="Memory occuped {{memory.occupedKB}}">
 					<span>{{memory.rate.occuped.toFixed(0)}}% occuped</span>
 				</div>
-				 <div class="progress-bar progress-bar-info" ng-style="{'width': memory.rate.cached.toFixed(2) +'%' }" title="Memory cached {{memory.cachedKB}}">
+				<div class="progress-bar bg-info" ng-style="{'width': memory.rate.cached.toFixed(2) +'%' }" title="Memory cached {{memory.cachedKB}}">
 					<span>{{memory.rate.cached.toFixed(0)}}% cached</span>
 				</div>
 			</div>
 		</div>
-
-		<div class="col-md-9">
-			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-show="showdrives" ng-animate="'animate'">
-				<thead>
-					<tr>
-						<th scope="col" class="text-center">Drive</th>
-						<th scope="col" class="text-center">Avail.</th>
-						<th scope="col" class="text-center">Used</th>
-						<th scope="col" class="text-center">%</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="fs in filesystems" ng-class="trClass(fs.usedPer * 0.01)">
-						<th scope="row" title="{{fs.drive}}">{{fs.mountpoint}}</th>
-						<td class="text-right">{{fs.available}}</td>
-						<td class="text-right">{{fs.used}}</td>
-						<td>
-							<div class="progress" style="margin-bottom:10px">
-								<div class="progress-bar" ng-class="progressClass(fs.usedPer * 0.01)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100"  ng-style="{'width': fs.usedPer +'%' }">
-									{{fs.usedPer}}% Complete
+		<div class="d-flex flex-row">
+			<div class="col-md-9">
+				<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-show="showdrives" ng-animate="'animate'">
+					<thead>
+						<tr>
+							<th scope="col" class="text-center">Drive</th>
+							<th scope="col" class="text-center">Avail.</th>
+							<th scope="col" class="text-center">Used</th>
+							<th scope="col" class="text-center">%</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="fs in filesystems" ng-class="trClass(fs.usedPer * 0.01)">
+							<th scope="row" title="{{fs.drive}}">{{fs.mountpoint}}</th>
+							<td class="text-right">{{fs.available}}</td>
+							<td class="text-right">{{fs.used}}</td>
+							<td>
+								<div class="progress" style="margin-bottom:10px">
+									<div class="progress-bar" ng-class="progressClass(fs.usedPer * 0.01)" role="progressbar" aria-valuenow="{{fs.usedPer}}" aria-valuemin="0" aria-valuemax="100"  ng-style="{'width': fs.usedPer +'%' }">
+										{{fs.usedPer}}% Complete
+									</div>
 								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-show="showprocesses" ng-animate="'animate'">
-				<thead>
-					<tr>
-						<th scope="col" class="text-center" colspan="2">COM</th>
-						<th scope="col" class="text-center">PID</th>
-						<th scope="col" class="clickable text-center" ng-click="setSortBy('cpu')">CPU</th>
-						<th scope="col" class="clickable text-center" ng-click="setSortBy('mem')">MEM</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat-start="p in processes" ng-class="trClass( sortby === 'mem' ? p.mem * 0.01 : p.cpu * 0.01)">
-						<td ng-click="p.show = !p.show" rowspan="{{ p.show ? (p.list.length + 1) : 1}}" class="clickable text-center">
-						<button type="button" ng-class="{'active': p.show, 'btn-default': !p.show }" class="btn btn-xs" title="View details">
-							<span class="glyphicon" ng-class="{'glyphicon-minus': p.show, 'glyphicon-plus': !p.show }"></span>
-						</button>
-						</td>
-						<th scope="row" ng-click="p.show = !p.show" rowspan="{{ p.show ? (p.list.length + 1) : 1}}" class="clickable">
-						{{p.commandname}}
-						</th>
-						<td class="text-center">{{p.pid}}</td>
-						<td class="text-right">{{p.cpu.toFixed(1)}}</td>
-						<td class="text-right">{{p.mem.toFixed(1)}}</td>
-					</tr>
-					<tr ng-show="p.show" ng-repeat="sub in p.list" ng-class="trClass( sortby === 'mem' ? sub.mem * 0.01 : sub.cpu * 0.01)">
-						<td class="text-center">{{sub.pid}}</td>
-						<td class="text-right">{{sub.cpu.toFixed(1)}}</td>
-						<td class="text-right">{{sub.mem.toFixed(1)}}</td>
-					</tr>
-					<tr ng-repeat-end></tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-3 text-center">
-			<div class="alert" ng-class="alertClass(profile.occupedpercent * 0.01)" role="alert" style="padding: 15px 0"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-condensed table-bordered table-hover table-striped table-condensed" style="font-size:10px" ng-show="showprocesses" ng-animate="'animate'">
+					<thead>
+						<tr>
+							<th scope="col" class="text-center" colspan="2">COM</th>
+							<th scope="col" class="text-center">PID</th>
+							<th scope="col" class="clickable text-center" ng-click="setSortBy('cpu')">CPU</th>
+							<th scope="col" class="clickable text-center" ng-click="setSortBy('mem')">MEM</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat-start="p in processes" ng-class="trClass( sortby === 'mem' ? p.mem * 0.01 : p.cpu * 0.01)">
+							<td ng-click="p.show = !p.show" rowspan="{{ p.show ? (p.list.length + 1) : 1}}" class="clickable text-center">
+							<button type="button" ng-class="{'active': p.show, 'btn-default': !p.show }" class="btn btn-xs" title="View details">
+								<span class="fas" ng-class="{'fa-minus': p.show, 'fa-plus': !p.show }"></span>
+							</button>
+							</td>
+							<th scope="row" ng-click="p.show = !p.show" rowspan="{{ p.show ? (p.list.length + 1) : 1}}" class="clickable">
+							{{p.commandname}}
+							</th>
+							<td class="text-center">{{p.pid}}</td>
+							<td class="text-right">{{p.cpu.toFixed(1)}}</td>
+							<td class="text-right">{{p.mem.toFixed(1)}}</td>
+						</tr>
+						<tr ng-show="p.show" ng-repeat="sub in p.list" ng-class="trClass( sortby === 'mem' ? sub.mem * 0.01 : sub.cpu * 0.01)">
+							<td class="text-center">{{sub.pid}}</td>
+							<td class="text-right">{{sub.cpu.toFixed(1)}}</td>
+							<td class="text-right">{{sub.mem.toFixed(1)}}</td>
+						</tr>
+						<tr ng-repeat-end></tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-3 text-center">
+				<div class="alert" ng-class="alertClass(profile.occupedpercent * 0.01)" role="alert" style="padding: 15px 0"><strong>RAM: {{profile.occupedpercent.toFixed(0)}} %</div>
 
-			<h4>Load avg.</h4>
-			<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">
-				<li ng-repeat="load in profile.loadavg track by $index">{{load.toFixed(2)}}</li>
-			</ul>
-			<div class="btn-group-vertical" role="group" aria-label="Mutex functionality">
-				<button type="button" ng-click="mutex()" ng-class="{'active': showdrives, 'btn-default': !showdrives }" class="clickable btn" title="View drives"><span class="glyphicon glyphicon-hdd"></span></button>
-				<button type="button" ng-click="mutex()" ng-class="{'active': showprocesses, 'btn-default': !showprocesses }" class="clickable btn" title="View top processes"><span class="glyphicon glyphicon-list-alt"></span></button>
+				<h4>Load avg.</h4>
+				<ul style="list-style:none; padding-left:0" title="1 minute, 5 minutes and 15 minutes ago">
+					<li ng-repeat="load in profile.loadavg track by $index">{{load.toFixed(2)}}</li>
+				</ul>
+				<div class="btn-group-vertical" role="group" aria-label="Capability to show drives or processes">
+					<button type="button" ng-click="mutex()" ng-class="{'btn-primary': showdrives, 'btn-default': !showdrives }" class="clickable btn" title="View drives"><span class="fas fa-hdd"></span></button>
+					<button type="button" ng-click="mutex()" ng-class="{'btn-primary': showprocesses, 'btn-default': !showprocesses }" class="clickable btn" title="View top processes"><span class="fas fa-list-alt"></span></button>
+				</div>
 			</div>
 		</div>
 	</div>

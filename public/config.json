@@ -1,5 +1,9 @@
 {
 	"servers": [
+		{"url": "/", "timeout": 20},
+		{"url": "/", "timeout": 20},
+		{"url": "/", "timeout": 20},
+		{"url": "/", "timeout": 20},
 		{"url": "/", "timeout": 20}
 	]
 }

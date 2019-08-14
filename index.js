@@ -15,11 +15,13 @@
 		};
 	}
 	
-	var	path = require('path'),
+	const path = require('path'),
 		express = require('express'),
+		fs = require('fs'),
 		app = express(),
 		monitorjs = require('./lib/monitor.js'),
-		port = process.env.PORT ? process.env.PORT : 9999;
+		port = process.env.PORT ? process.env.PORT : 9999,
+		staticfiles = JSON.parse(fs.readFileSync(path.join(__dirname, 'staticfiles.json'), 'utf8'));
 	
 	app.use('/api/', function(req, res, next) {
 		res.header('Access-Control-Allow-Origin', '*');
@@ -43,7 +45,33 @@
 		monitorjs.profileList().then(okHandler(res), errorHandler(res));
 	}).get('/api/memory', function(req, res){
 		monitorjs.memoryStatus().then(okHandler(res), errorHandler(res));
-	}).use(express.static(path.join(__dirname, 'public')));
+	});
+
+	const staticContent = staticfiles.filter((s) => s.files).reduce((p, c) => {
+		p.set(c.name, {
+			name: c.name,
+			content: c.files.reduce((content, filename) => {
+				content.push(fs.readFileSync(path.join(__dirname, filename), 'utf8'));
+
+				return content;
+		}, []).join("\n")
+		});
+
+		return p;
+	}, new Map());
+
+	staticfiles.forEach((sm) => {
+		app.get('/' + sm.name, function(req, res) {
+			if (staticContent.get(sm.name)) {
+				res.header('Content-type', sm.mimetype);
+				res.send(staticContent.get(sm.name).content);
+			} else {
+				res.sendFile(path.resolve(__dirname, sm.file));
+			}
+		});
+	});
+	
+	app.use(express.static(path.join(__dirname, 'public')));
 	app.listen(port);
 	logger.log('Server listening on port', port);
 

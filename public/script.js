@@ -77,16 +77,16 @@
 					$scope.mutex();
 
 					$scope.progressClass = function(percent){
-						if (percent > 0.8) return 'progress-bar-danger';
-						if (percent > 0.6) return 'progress-bar-warning';
-						if (percent > 0.4) return 'progress-bar-info';
-						return 'progress-bar-success';
+						if (percent > 0.8) return 'bg-danger';
+						if (percent > 0.6) return 'bg-warning';
+						if (percent > 0.4) return 'bg-info';
+						return 'bg-success';
 					};
 					$scope.trClass = function(percent){
-						if (percent > 0.3) return 'danger';
-						if (percent > 0.2) return 'warning';
-						if (percent > 0.1) return 'info';
-						return 'success';
+						if (percent > 0.3) return 'table-danger';
+						if (percent > 0.2) return 'table-warning';
+						if (percent > 0.1) return 'table-info';
+						return 'table-success';
 					};
 					$scope.alertClass = function(percent){
 						if (percent > 0.8) return 'alert-danger';

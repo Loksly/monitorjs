@@ -1,0 +1,48 @@
+[
+    {
+        "name": "bundle.min.js",
+        "mimetype": "application/javascript; charset=utf-8",
+        "files": [
+            "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+            "node_modules/angular/angular.min.js",
+            "node_modules/angular-route/angular-route.min.js",
+            "node_modules/angular-animate/angular-animate.min.js"
+        ]
+    },
+    {
+        "name": "bootstrap.min.css",
+        "mimetype": "text/css; charset=utf-8",
+        "files": [
+            "node_modules/bootstrap/dist/css/bootstrap.min.css"
+        ]
+    },
+    {
+        "name": "css/fontawesome.min.css",
+        "mimetype": "text/css; charset=utf-8",
+        "files": [
+            "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
+            "node_modules/@fortawesome/fontawesome-free/css/solid.min.css"
+        ]
+    },
+    {
+        "name": "webfonts/fa-solid-900.woff2",
+        "file": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+    },
+    {
+        "name": "webfonts/fa-solid-900.woff",
+        "file": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff"
+    },
+    {
+        "name": "webfonts/fa-solid-900.eot",
+        "file": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot"
+    },
+    {
+        "name": "webfonts/fa-solid-900.svg",
+        "file": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.svg"
+    },
+    {
+        "name": "webfonts/fa-solid-900.ttf",
+        "file": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+    }
+]
