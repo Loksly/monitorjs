@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/Loksly/monitorjs",
   "dependencies": {
-    "angular": "^1.7.8",
+    "angular": "^1.7.9",
     "angular-animate": "^1.7.8",
     "angular-route": "^1.7.8",
     "bootstrap": "^4.3.1",
